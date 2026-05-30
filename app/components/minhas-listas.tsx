@@ -19,8 +19,8 @@ export default async function MinhasListas() {
   console.log(lists);
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg md:shadow-md text-gray-800">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-gray-900 md:dark:bg-gray-800 rounded-lg md:shadow-md text-gray-800 dark:text-gray-200">
+      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600 dark:text-gray-200">
         Minhas Listas de Tarefas
       </h1>
 
@@ -29,7 +29,7 @@ export default async function MinhasListas() {
           type="text"
           name="title"
           placeholder="Nova lista"
-          className="flex-1 px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-white dark:text-gray-800"
           required
         />
         <button
@@ -43,10 +43,10 @@ export default async function MinhasListas() {
       <ul className="space-y-3">
         {lists.length === 0 && <p>Nenhuma lista criada ainda.</p>}
         {lists.map((list) => (
-          <li key={list.id}>
+          <li key={list.id} className="flex items-center justify-between border-b pb-3" >
             <Link
               href={`/lista/${list.id}`}
-              className="flex-1 font-semibold text-lg text-gray-700 hover:text-blue-600"
+              className="flex-1 font-semibold text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600"
             >
               {list.title}
               <span className="text-sm font-normal text-gray-400 ml-2">
