@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { db } from "../lib/db";
-import { deleteList } from "../lib/actions";
+import { createList, deleteList } from "../lib/actions";
 
 export default async function MinhasListas() {
   const lists = await db.todoList.findMany({
@@ -16,18 +16,21 @@ export default async function MinhasListas() {
     },
   });
 
+  console.log(lists);
+
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg md:shadow-md text-gray-800">
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
         Minhas Listas de Tarefas
       </h1>
 
-      <form action="" className="flex gap-2 mb-8">
+      <form action={createList} className="flex gap-2 mb-8">
         <input
           type="text"
           name="title"
-          placeholder="Nome da nova lista..."
+          placeholder="Nova lista"
           className="flex-1 px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
         />
         <button
           type="submit"

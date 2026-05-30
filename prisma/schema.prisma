@@ -17,7 +17,7 @@ model TodoList {
   title String
   createdAt DateTime @default(now())
   todos Todo[]
-	@@map("TotoList")
+	@@map("TodoList")
 }
 
 model Todo {
