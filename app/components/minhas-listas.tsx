@@ -1,6 +1,21 @@
 import Link from "next/link";
+import { db } from "../lib/db";
+import { deleteList } from "../lib/actions";
 
 export default async function MinhasListas() {
+  const lists = await db.todoList.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      _count: {
+        select: {
+          todos: true,
+        },
+      },
+    },
+  });
+
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg md:shadow-md text-gray-800">
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
@@ -23,27 +38,33 @@ export default async function MinhasListas() {
       </form>
 
       <ul className="space-y-3">
-        <p>Nenhuma lista criada ainda.</p>
-        <li>
-          <Link
-            href="/lista/1"
-            className="flex-1 font-semibold text-lg text-gray-700 hover:text-blue-600"
-          >
-            Titulo da Lista
-            <span className="text-sm font-normal text-gray-400 ml-2">
-              (0 tarefas)
-            </span>
-          </Link>
-
-          <form action="">
-            <button
-              type="submit"
-              className="text-red-500 hover:text-red-700 text-sm font-medium ml-4"
+        {lists.length === 0 && <p>Nenhuma lista criada ainda.</p>}
+        {lists.map((list) => (
+          <li key={list.id}>
+            <Link
+              href={`/lista/${list.id}`}
+              className="flex-1 font-semibold text-lg text-gray-700 hover:text-blue-600"
             >
-              Excluir
-            </button>
-          </form>
-        </li>
+              {list.title}
+              <span className="text-sm font-normal text-gray-400 ml-2">
+                ( {list._count.todos} tarefas)
+              </span>
+            </Link>
+
+            <form action={async () => {
+                "use server"; 
+                await deleteList(list.id);
+              }}
+            >
+              <button
+                type="submit"
+                className="text-red-500 hover:text-red-700 text-sm font-medium ml-4"
+              >
+                Excluir
+              </button>
+            </form>
+          </li>
+        ))}
       </ul>
     </div>
   );

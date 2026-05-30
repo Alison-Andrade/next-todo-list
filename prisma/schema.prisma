@@ -12,11 +12,12 @@ datasource db {
   provider = "postgresql"
 }
 
-model TotoList {
+model TodoList {
   id String @id @default(uuid())
   title String
   createdAt DateTime @default(now())
   todos Todo[]
+	@@map("TotoList")
 }
 
 model Todo {
@@ -26,5 +27,5 @@ model Todo {
   createdAt DateTime @default(now())
 
   todoListId String
-  todoList TotoList @relation(fields: [todoListId], references: [id], onDelete: Cascade)
+  todoList TodoList @relation(fields: [todoListId], references: [id], onDelete: Cascade)
 }
