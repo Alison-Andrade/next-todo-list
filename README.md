@@ -4,7 +4,7 @@ Aplicação de lista de tarefas construída com Next.js 16, React 19, Tailwind C
 
 Esse projeto foi criado com o intuito de aprender Next.js 16, NextAuth e Prisma.
 
- - Link produção: https://simpletodolist.mocha.vercel.app
+ - Link produção: https://simpletodolist-mocha.vercel.app/
 
 ## Descrição
 
