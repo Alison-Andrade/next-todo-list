@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { db } from "../lib/db";
 import { createList, deleteList } from "../lib/actions";
+import { auth } from "@/auth";
 
 export default async function MinhasListas() {
+  const session = await auth();
+
   const lists = await db.todoList.findMany({
+    where: {
+      userId: session?.user?.id,
+    },
     orderBy: {
       createdAt: "desc",
     },
