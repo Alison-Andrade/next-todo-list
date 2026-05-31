@@ -16,6 +16,7 @@ model TodoList {
   id String @id @default(uuid())
   title String
   createdAt DateTime @default(now())
+  idempotencyKey String @unique
 
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -29,6 +30,7 @@ model Todo {
   title String
   isDone Boolean @default(false)
   createdAt DateTime @default(now())
+  idempotencyKey String @unique
 
   todoListId String
   todoList TodoList @relation(fields: [todoListId], references: [id], onDelete: Cascade)

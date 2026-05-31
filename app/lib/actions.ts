@@ -9,7 +9,6 @@ import { AuthError } from "next-auth";
 import { auth } from "@/auth";
 
 export async function createList(formData: FormData) {
-
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -17,10 +16,17 @@ export async function createList(formData: FormData) {
   }
 
   const title = formData.get("title") as string;
+  const idempotencyKey = formData.get("idempotencyKey") as string;
+
+  if (!idempotencyKey) return;
   if (!title || title.trim() === "") return;
 
   const newList = await db.todoList.create({
-    data: { title, userId: session.user.id },
+    data: {
+      title,
+      idempotencyKey,
+      userId: session.user.id,
+    },
   });
 
   revalidatePath("/");
@@ -36,10 +42,13 @@ export async function deleteList(id: string) {
 
 export async function addTodo(todoListId: string, formData: FormData) {
   const title = formData.get("title") as string;
+  const idempotencyKey = formData.get("idempotencyKey") as string;
+
+  if (!idempotencyKey) return;
   if (!title || title.trim() === "") return;
 
   await db.todo.create({
-    data: { title, todoListId },
+    data: { title, todoListId, idempotencyKey },
   });
   revalidatePath(`/list/${todoListId}`);
 }
@@ -63,7 +72,10 @@ export async function deleteTodo(id: string, todoListId: string) {
   revalidatePath(`/list/${todoListId}`);
 }
 
-export async function authenticate(prevState: string | undefined, formData: FormData) {
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
   try {
     await signIn("credentials", {
       redirect: false,

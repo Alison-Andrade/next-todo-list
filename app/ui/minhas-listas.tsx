@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { db } from "../lib/db";
 import { createList, deleteList } from "../lib/actions";
+import { v4 as uuidv4 } from "uuid";
 import { auth } from "@/auth";
 
 export default async function MinhasListas() {
+  const pageIdempotencyKey = uuidv4();
   const session = await auth();
 
   const lists = await db.todoList.findMany({
@@ -31,6 +33,7 @@ export default async function MinhasListas() {
       </h1>
 
       <form action={createList} className="flex gap-2 mb-8">
+        <input type="hidden" name="idempotencyKey" value={pageIdempotencyKey} readOnly className="hidden" />
         <input
           type="text"
           name="title"
