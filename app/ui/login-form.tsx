@@ -2,7 +2,7 @@
 
 import {
   ArrowRightIcon,
-  IdentificationIcon,
+  AtSymbolIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import { redirect, useSearchParams } from "next/navigation";
@@ -11,9 +11,13 @@ import { authenticate } from "../lib/actions";
 import { useActionState } from "react";
 import { signIn } from "next-auth/react";
 import { GoogleSignInButton } from "./google-sign-in-button";
+import Link from "next/link";
 
 export default function LoginForm() {
-  const [state, formAction, isPending] = useActionState(authenticate, undefined);
+  const [state, formAction, isPending] = useActionState(
+    authenticate,
+    undefined,
+  );
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
@@ -39,7 +43,7 @@ export default function LoginForm() {
                   placeholder="Digite seu email"
                   required
                 />
-                <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:peer-focus:text-white" />
+                <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:peer-focus:text-white" />
               </div>
             </div>
             <div className="mt-4">
@@ -75,7 +79,16 @@ export default function LoginForm() {
             Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
           </Button>
           <hr className="my-6" />
-          <div className="flex justify-center">
+          <div className="flex justify-center flex-col">
+            <p className="text-sm mb-6">
+              Ainda não possui uma conta?{" "}
+              <Link href="/register" className="text-blue-500 hover:underline">
+                Registre-se
+              </Link>
+            </p>
+          </div>
+          <div className="flex gap-2 items-center">
+            <p>Ou entre com:</p>
             <GoogleSignInButton />
           </div>
         </div>

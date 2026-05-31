@@ -6,10 +6,10 @@ export function GoogleSignInButton() {
   return (
     <button
       onClick={() => signIn("google", { callbackUrl: "/" })}
-      className="flex items-center gap-3 px-5 h-11 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+      className="flex items-center px-3 h-11 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
     >
       <GoogleIcon />
-      Entrar com Google
+      {/* Entrar com Google */}
     </button>
   );
 }
