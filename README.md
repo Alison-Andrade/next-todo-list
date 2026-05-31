@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Simple To-do App
 
-## Getting Started
+Aplicação de lista de tarefas construída com Next.js 16, React 19, Tailwind CSS e autenticação via NextAuth.
 
-First, run the development server:
+Esse projeto foi criado com o intuito de aprender Next.js 16, NextAuth e Prisma.
+
+ - Link produção: https://simpletodolist.mocha.vercel.app
+
+## Descrição
+
+Permite que usuários cadastrem e façam login usando credenciais ou Google, criem listas de tarefas, adicionem tarefas, marquem como concluídas e excluam itens.
+
+A aplicação usa:
+
+- Next.js App Router
+- NextAuth para autenticação (Google e Credentials)
+- Prisma com PostgreSQL
+- Tailwind CSS
+- Prisma Adapter para autenticação com banco Postgres
+
+## Funcionalidades
+
+- Cadastro e login de usuário
+- Login via Google
+- Criação de listas de tarefas
+- Visualização de listas do usuário autenticado
+- Adição de tarefas em listas específicas
+- Marcar tarefas como concluídas
+- Exclusão de tarefas e listas
+- Proteção de rotas para usuários não autenticados
+
+## Estrutura do projeto
+
+- `app/` — página inicial, login, registro e rotas protegidas
+- `app/api/auth/[...nextauth]/route.ts` — rota do NextAuth
+- `app/lib/db.ts` — cliente Prisma com conexão PostgreSQL
+- `app/lib/actions.ts` — ações de servidor para criar/excluir listas e tarefas
+- `app/ui/` — componentes de interface
+- `prisma/schema.prisma` — modelo de dados
+
+## Requisitos
+
+- Node.js 20+
+- pnpm
+- PostgreSQL
+
+## Instalação
+
+1. Instale dependências:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Crie arquivo `.env` na raiz do projeto com as variáveis abaixo:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+AUTH_GOOGLE_ID=seu_google_client_id
+AUTH_GOOGLE_SECRET=seu_google_client_secret
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Aplique as migrações do Prisma:
 
-## Learn More
+```bash
+pnpm prisma migrate dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Inicie o servidor de desenvolvimento:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Acesse a aplicação em:
 
-## Deploy on Vercel
+```text
+http://localhost:3000
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `pnpm dev` — inicia o servidor de desenvolvimento
+- `pnpm build` — gera a versão de produção
+- `pnpm start` — inicia a aplicação em modo de produção
+- `pnpm lint` — executa o ESLint
+
+## Variáveis de ambiente
+
+- `DATABASE_URL` — string de conexão com PostgreSQL
+- `AUTH_GOOGLE_ID` — Client ID do Google OAuth
+- `AUTH_GOOGLE_SECRET` — Client Secret do Google OAuth
+
+## Notas
+
+- O projeto usa `next-auth` com `session.strategy = 'jwt'`.
+- As listas e tarefas são salvas por usuário autenticado.
+- O backend usa Prisma com o `PrismaPg` adapter para PostgreSQL.
+
+## Licença
+
+Este projeto está disponível para uso pessoal e adaptação.
