@@ -23,8 +23,8 @@ export default function LoginForm() {
 
   return (
     <div>
-      <form action={formAction} className="space-y-3">
-        <div className="flex-1 rounded-lg bg-gray-50 dark:bg-gray-900 px-6 pb-4 pt-8">
+      <div className="flex-1 rounded-lg bg-gray-50 dark:bg-gray-900 px-6 pb-4 pt-8">
+        <form action={formAction} className="space-y-3">
           <h1 className="mb-3 text-2xl">Log in</h1>
           <div className="w-full">
             <div>
@@ -78,21 +78,21 @@ export default function LoginForm() {
           <Button className="mt-4 w-full" disabled={isPending}>
             Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
           </Button>
-          <hr className="my-6" />
-          <div className="flex justify-center flex-col">
-            <p className="text-sm mb-6">
-              Ainda não possui uma conta?{" "}
-              <Link href="/register" className="text-blue-500 hover:underline">
-                Registre-se
-              </Link>
-            </p>
-          </div>
-          <div className="flex gap-2 items-center">
-            <p>Ou entre com:</p>
-            <GoogleSignInButton />
-          </div>
+        </form>
+        <hr className="my-6" />
+        <div className="flex justify-center flex-col">
+          <p className="text-sm mb-6">
+            Ainda não possui uma conta?{" "}
+            <Link href="/register" className="text-blue-500 hover:underline">
+              Registre-se
+            </Link>
+          </p>
         </div>
-      </form>
+        <div className="flex gap-2 items-center">
+          <p>Ou entre com:</p>
+          <GoogleSignInButton />
+        </div>
+      </div>
     </div>
   );
 }
