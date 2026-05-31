@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const currentList = await db.todoList.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: { todos: { orderBy: { createdAt: "asc" } } },
     });
 
@@ -26,7 +26,7 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { title } = await request.json();
@@ -58,7 +58,7 @@ export async function POST(
       data: {
         title,
         idempotencyKey,
-        todoListId: params.id,
+        todoListId: (await params).id,
       },
     });
 
