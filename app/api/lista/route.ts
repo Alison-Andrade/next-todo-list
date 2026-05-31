@@ -59,8 +59,9 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(newList, { status: 201 });
-  } catch (error) {
-    if ((error as { code?: string }).code === "P2002") {
+  } catch (error: unknown) {
+    const err = error as { code: string };
+    if (err.code === "P2002") {
       const raceConditionList = await db.todoList.findUnique({
         where: { idempotencyKey: request.headers.get("X-Idempotency-Key")! },
       });

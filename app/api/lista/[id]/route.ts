@@ -64,12 +64,8 @@ export async function POST(
 
     return NextResponse.json({ newTodo }, { status: 201 });
   } catch (error: unknown) {
-    if (
-      typeof error === "object" &&
-      error !== null &&
-      "code" in error &&
-      (error as { code?: string }).code === "P2002"
-    ) {
+    const err = error as { code: string };
+    if (err.code === "P2002") {
       const raceConditionTodo = await db.todo.findUnique({
         where: {
           idempotencyKey: request.headers.get("X-Imdepotency-Key")!,
