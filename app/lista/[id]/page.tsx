@@ -3,12 +3,14 @@ import { db } from "@/app/lib/db";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
 export default async function Page({ params }: PageProps) {
+  const pageIdempotencyKey = uuidv4();
   const { id } = await params;
 
   const currentList = await db.todoList.findUnique({
@@ -42,6 +44,13 @@ export default async function Page({ params }: PageProps) {
         </h1>
 
         <form action={addTodoWithId} className="flex gap-2 mb-6">
+          <input
+            type="hidden"
+            name="idempotencyKey"
+            value={pageIdempotencyKey}
+            readOnly
+            className="hidden"
+          />
           <input
             type="text"
             name="title"

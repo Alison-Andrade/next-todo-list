@@ -8,6 +8,7 @@ import { signIn } from "next-auth/react";
 import { AuthError } from "next-auth";
 import { auth } from "@/auth";
 
+
 export async function createList(formData: FormData) {
   const session = await auth();
 
@@ -48,7 +49,7 @@ export async function addTodo(todoListId: string, formData: FormData) {
   if (!title || title.trim() === "") return;
 
   await db.todo.create({
-    data: { title, todoListId, idempotencyKey },
+    data: { todoListId, title, idempotencyKey },
   });
   revalidatePath(`/list/${todoListId}`);
 }

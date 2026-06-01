@@ -24,8 +24,6 @@ export default async function MinhasListas() {
     },
   });
 
-  console.log(lists);
-
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-gray-900 md:dark:bg-gray-800 rounded-lg md:shadow-md text-gray-800 dark:text-gray-200">
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-600 dark:text-gray-200">
